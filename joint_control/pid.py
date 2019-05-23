@@ -53,7 +53,18 @@ class PIDController(object):
         @return control signal
         '''
         # YOUR CODE HERE
+        # prediction angle(t) = angle(t-1) + speed * dt
+        prediction = sensor + self.u * self.dt
 
+        # tracking error
+        e = target - (sensor + prediction)
+
+        # PID
+
+        self.u = self.u + (self.Kp + self.Ki * self.dt + self.Kd / self.dt) * e - (self.Kp + 2 * self.Kd / self.dt) * self.e1 + (self.Kd / self.dt) * self.e2
+
+        self.e2 = self.e1
+        self.e1 = e
         return self.u
 
 
